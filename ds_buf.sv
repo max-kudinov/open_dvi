@@ -1,10 +1,10 @@
 module ds_buf (
     input  in,
     output out,
-    output n_out
+    output out_n
 );
 
     assign out   = in;
-    assign n_out = ~in;
+    assign out_n = ~in;
 
 endmodule

@@ -28,7 +28,7 @@ module tmds_encoder (
             // verilator lint_off ALWCOMBORDER
             q_m[8] = 1'b0;
 
-            for (int i = 0; i < 6; i++) begin
+            for (int i = 0; i < 7; i++) begin
                 q_m[i + 1] = q_m[i] ~^ D[i + 1];
             end
             // verilator lint_on ALWCOMBORDER
@@ -36,7 +36,7 @@ module tmds_encoder (
         end else begin
             q_m[8] = 1'b1;
 
-            for (int i = 0; i < 6; i++) begin
+            for (int i = 0; i < 7; i++) begin
                 q_m[i + 1] = q_m[i] ^ D[i + 1];
             end
         end
