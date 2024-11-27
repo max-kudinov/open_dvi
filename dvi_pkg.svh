@@ -35,8 +35,6 @@
 
     parameter COLOR_W       = 8;
 
-    parameter PX_CNT_W      = $clog2(BOARD_CLK_MHZ / PIXEL_CLK_MHZ);
-
 // endpackage : dvi_pkg
 
 `endif
