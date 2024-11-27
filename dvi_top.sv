@@ -32,36 +32,17 @@ module dvi_top
     logic [COLOR_W-1:0] green;
     logic [COLOR_W-1:0] blue;
 
-    logic [134:0] qr_mem [0:134];
-
-    logic [134:0] row;
-
-    initial begin
-        $readmemb("qr.mem", qr_mem);
-    end
-
-    logic [7:0] scaled_x;
-    logic [7:0] scaled_y;
-
     always_comb begin
-            red   = '0;
-            green = '0;
-            blue  = '0;
-            row = '0;
+        red   = '0;
+        green = '0;
+        blue  = '0;
 
-            scaled_x = pixel_x >> 1;
-            scaled_y = pixel_y >> 1;
+        if (pixel_x > 50 && pixel_x < 400) begin
+            red   = '1;
+        end
 
-            row = qr_mem[8'(scaled_y)];
-
-        if (visible_range) begin
-            if (scaled_x < 135 && scaled_y < 135) begin
-                if (row[scaled_x]) begin
-                    red   = 8'd255;
-                    green = 8'd255;
-                    blue  = 8'd255;
-                end
-            end
+        if (pixel_y > 200 && pixel_y < 300) begin
+            green = '1;
         end
     end
 
@@ -151,27 +132,31 @@ module dvi_top
 
 
     ds_buf blue_ds_buf (
+        .clk_i ( serial_clk_i    ),
         .in    ( blue_serial     ),
         .out   ( tmds_data_p [0] ),
         .out_n ( tmds_data_n [0] )
     );
 
     ds_buf green_ds_buf (
+        .clk_i ( serial_clk_i    ),
         .in    ( green_serial    ),
         .out   ( tmds_data_p [1] ),
         .out_n ( tmds_data_n [1] )
     );
 
     ds_buf red_ds_buf (
+        .clk_i ( serial_clk_i    ),
         .in    ( red_serial      ),
         .out   ( tmds_data_p [2] ),
         .out_n ( tmds_data_n [2] )
     );
 
     ds_buf clk_ds_buf (
-        .in    ( pixel_clk_i ),
-        .out   ( tmds_clk_p  ),
-        .out_n ( tmds_clk_n  )
+        .clk_i ( serial_clk_i ),
+        .in    ( pixel_clk_i  ),
+        .out   ( tmds_clk_p   ),
+        .out_n ( tmds_clk_n   )
     );
 
 endmodule
