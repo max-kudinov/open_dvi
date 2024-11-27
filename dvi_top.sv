@@ -32,24 +32,46 @@ module dvi_top
     logic [COLOR_W-1:0] green;
     logic [COLOR_W-1:0] blue;
 
-    // verilator lint_off ASCRANGE
-    logic [0:134] qr_mem [135];
-    logic [0:134] row;
-    // verilator lint_on ASCRANGE
-
     logic [X_POS_W-1:0] x_scaled;
     logic [Y_POS_W-1:0] y_scaled;
 
-    localparam X_OFFSET = 90;
-    localparam Y_OFFSET = 55;
+    localparam IX_OFFSET = 20;
+    localparam IY_OFFSET = 20;
+
+    localparam QX_OFFSET = 180;
+    localparam QY_OFFSET = 75;
+
+    localparam IMG_RES = 256;
+    localparam QR_RES = 135;
+
+    logic [7:0] img_mem [65536];
+    logic [7:0] color;
+
+    // verilator lint_off ASCRANGE
+    logic [0:134] qr_mem [135];
+    logic qr_pixel;
+    // verilator lint_on ASCRANGE
 
     initial begin
+        $readmemh("lena.mem", img_mem);
         $readmemb("qr.mem", qr_mem);
     end
 
     always_ff @(posedge pixel_clk_i) begin
-        if ((y_scaled > Y_OFFSET) && (y_scaled < 135 + Y_OFFSET)) begin
-            row <= qr_mem[8'(y_scaled - 10'(Y_OFFSET))];
+        if ((pixel_x > IX_OFFSET) && (pixel_x < IMG_RES + IX_OFFSET) &&
+            (pixel_y > IY_OFFSET) && (pixel_y < IMG_RES + IY_OFFSET)) begin
+
+            color <= img_mem[((pixel_y - IY_OFFSET) << 8)
+                            + (pixel_x - IX_OFFSET)];
+        end
+    end
+
+    always_ff @(posedge pixel_clk_i) begin
+        if ((x_scaled > QX_OFFSET) && (x_scaled < QR_RES + QX_OFFSET) &&
+            (y_scaled > QY_OFFSET) && (y_scaled < QR_RES + QY_OFFSET)) begin
+
+            qr_pixel <= qr_mem[8'(y_scaled - 10'(QY_OFFSET))]
+                              [8'(x_scaled - 10'(QX_OFFSET))];
         end
     end
 
@@ -69,19 +91,28 @@ module dvi_top
         x_scaled = pixel_x >> 1;
         y_scaled = pixel_y >> 1;
 
-
-        if ((x_scaled > X_OFFSET) && (x_scaled < 135 + X_OFFSET) &&
-            (y_scaled > Y_OFFSET) && (y_scaled < 135 + Y_OFFSET)) begin
+        // QR code
+        if ((x_scaled > QX_OFFSET) && (x_scaled < QR_RES + QX_OFFSET) &&
+            (y_scaled > QY_OFFSET) && (y_scaled < QR_RES + QY_OFFSET)) begin
 
             red   = '1;
             green = '1;
             blue  = '1;
 
-            if (row[8'(x_scaled - 10'(X_OFFSET))]) begin
+            if (qr_pixel) begin
                 red   = '0;
                 green = '0;
                 blue  = '0;
             end
+        end
+
+        // Lena image
+        if ((pixel_x > IX_OFFSET) && (pixel_x < IMG_RES + IX_OFFSET) &&
+            (pixel_y > IY_OFFSET) && (pixel_y < IMG_RES + IY_OFFSET)) begin
+
+            red   = color;
+            green = color;
+            blue  = color;
         end
     end
 
@@ -164,11 +195,9 @@ module dvi_top
         .data_o ( red_serial   )
     );
 
-
     // ------------------------------------------------------------------------
     // Create differential signals
     // ------------------------------------------------------------------------
-
 
     ds_buf blue_ds_buf (
         .clk_i ( serial_clk_i    ),
