@@ -8,11 +8,12 @@ module tmds_encoder (
     output logic [9:0] q_out
 );
 
-    localparam W_CNT = 9;
+    localparam W_CNT = 8;
 
     logic signed [W_CNT-1:0] cnt;
     logic signed [W_CNT-1:0] cnt_next;
     logic              [8:0] q_m;
+    logic              [9:0] q_next;
     logic              [3:0] N1D;
     logic              [3:0] N1_qm;
     logic              [3:0] N0_qm;
@@ -49,9 +50,9 @@ module tmds_encoder (
 
         if (DE) begin
             if ((cnt == 0) || (N1_qm == N0_qm)) begin
-                q_out[9]   = ~q_m[8];
-                q_out[8]   =  q_m[8];
-                q_out[7:0] =  q_m[8] ? q_m[7:0] : ~q_m[7:0];
+                q_next[9]   = ~q_m[8];
+                q_next[8]   =  q_m[8];
+                q_next[7:0] =  q_m[8] ? q_m[7:0] : ~q_m[7:0];
 
                 if (~q_m[8]) begin
                     cnt_next = cnt + W_CNT'(N0_qm) -  W_CNT'(N1_qm);
@@ -63,16 +64,18 @@ module tmds_encoder (
                 if (((cnt > 0) && (N1_qm > N0_qm)) ||
                     ((cnt < 0) && (N0_qm > N1_qm))) begin
 
-                    q_out[9]   = 1'b1;
-                    q_out[8]   = q_m[8];
-                    q_out[7:0] = ~q_m[7:0];
-                    cnt_next   = cnt + (W_CNT'(q_m[8]) << 1) + W_CNT'(N0_qm) - W_CNT'(N1_qm);
+                    q_next[9]   = 1'b1;
+                    q_next[8]   = q_m[8];
+                    q_next[7:0] = ~q_m[7:0];
+                    cnt_next    = cnt + (W_CNT'(q_m[8]) << 1) +
+                                        W_CNT'(N0_qm) - W_CNT'(N1_qm);
 
                 end else begin
-                    q_out[9]   = 1'b0;
-                    q_out[8]   = q_m[8];
-                    q_out[7:0] = q_m[7:0];
-                    cnt_next   = cnt - (W_CNT'({~q_m[8]}) << 1) + W_CNT'(N0_qm) - W_CNT'(N1_qm);
+                    q_next[9]   = 1'b0;
+                    q_next[8]   = q_m[8];
+                    q_next[7:0] = q_m[7:0];
+                    cnt_next    = cnt - (W_CNT'({~q_m[8]}) << 1) +
+                                        W_CNT'(N1_qm) - W_CNT'(N0_qm);
                 end
             end
 
@@ -80,10 +83,10 @@ module tmds_encoder (
             cnt_next = '0;
 
             case ({C1, C0})
-                2'b00: q_out = 10'b1101010100;
-                2'b01: q_out = 10'b0010101011;
-                2'b10: q_out = 10'b0101010100;
-                2'b11: q_out = 10'b1010101011;
+                2'b00: q_next = 10'b1101010100;
+                2'b01: q_next = 10'b0010101011;
+                2'b10: q_next = 10'b0101010100;
+                2'b11: q_next = 10'b1010101011;
             endcase
         end
     end
@@ -94,6 +97,10 @@ module tmds_encoder (
         end else begin
             cnt <= cnt_next;
         end
+    end
+
+    always_ff @(posedge clk_i) begin
+        q_out <= q_next;
     end
 
 endmodule
