@@ -7,10 +7,10 @@ module serializer #(
     output logic              data_o
 );
 
-    localparam CNT_MAX = 9;
+    localparam CNT_MAX = DATA_W - 1;
 
     logic [DATA_W-1:0] shift_reg;
-    logic [3:0]        cnt;
+    logic [       3:0] cnt;
     logic              load;
 
     assign load = cnt == CNT_MAX;
