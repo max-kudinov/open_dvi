@@ -5,7 +5,7 @@ board="tangprimer20k"
 
 # Synthesis into Gowin primitives
 if ! yosys -p "read -sv board_top.sv dvi_sync.sv serializer.sv tmds_encoder.sv \
-               dvi_top.sv ds_buf.sv; synth_gowin -json design.json"
+               dvi_top.sv ds_buf.sv image_gen.sv; synth_gowin -json design.json"
 then
     echo "Yosys failed"
     exit 1

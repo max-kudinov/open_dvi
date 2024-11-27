@@ -1,29 +1,32 @@
+`include "dvi_pkg.svh"
+
+`default_nettype none
+
 module board_top (
     input  logic       clk_i,
     input  logic       rst_n_i,
-    output logic       led,
     output logic       tmds_clk_n,
     output logic       tmds_clk_p,
     output logic [2:0] tmds_data_n,
     output logic [2:0] tmds_data_p
 );
 
-    logic rst;
-    logic serial_clk;
-    logic pixel_clk_div2;
-    logic pixel_clk;
-    logic pll_lock;
+    logic               rst;
+    logic               serial_clk;
+    logic               pixel_clk_div2;
+    logic               pixel_clk;
+    logic               pll_lock;
 
-    logic [23:0] cnt;
+    logic [X_POS_W-1:0] pos_x;
+    logic [Y_POS_W-1:0] pos_y;
+
+    logic [COLOR_W-1:0] red;
+    logic [COLOR_W-1:0] green;
+    logic [COLOR_W-1:0] blue;
 
     assign rst = ~rst_n_i;
 
-    always_ff @(posedge pixel_clk) begin
-        cnt <= cnt + 1'b1;
-    end
-
-    assign led = cnt[23];
-
+    // Hide vendor black boxes from Verilator lint
 
     `ifndef VERILATOR
 
@@ -65,16 +68,30 @@ module board_top (
             .RESETN ( pll_lock       )
         );
 
-    `endif
+    `endif // VERILATOR
 
     dvi_top i_dvi_top (
         .serial_clk_i ( serial_clk  ),
         .pixel_clk_i  ( pixel_clk   ),
         .rst_i        ( rst         ),
+        .red_i        ( red         ),
+        .green_i      ( green       ),
+        .blue_i       ( blue        ),
+        .x_o          ( pos_x       ),
+        .y_o          ( pos_y       ),
         .tmds_clk_p   ( tmds_clk_p  ),
         .tmds_clk_n   ( tmds_clk_n  ),
         .tmds_data_p  ( tmds_data_p ),
         .tmds_data_n  ( tmds_data_n )
+    );
+
+    image_gen i_image_gen (
+        .clk_i   ( pixel_clk ),
+        .x_i     ( pos_x     ),
+        .y_i     ( pos_y     ),
+        .red_o   ( red       ),
+        .green_o ( green     ),
+        .blue_o  ( blue      )
     );
 
 endmodule
