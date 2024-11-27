@@ -1,10 +1,13 @@
 module ds_buf (
-    input  in,
-    output out,
-    output out_n
+    input  logic clk_i,
+    input  logic in,
+    output logic out,
+    output logic out_n
 );
 
-    assign out   = in;
-    assign out_n = ~in;
+    always_ff @(posedge clk_i) begin
+        out   <=   in;
+        out_n <= ~ in;
+    end
 
 endmodule
