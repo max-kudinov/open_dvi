@@ -1,3 +1,5 @@
+`default_nettype none
+
 module serializer #(
     parameter DATA_W = 10
 ) (

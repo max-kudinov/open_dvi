@@ -1,3 +1,5 @@
+`default_nettype none
+
 module ds_buf (
     input  logic clk_i,
     input  logic in,

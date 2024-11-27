@@ -1,3 +1,5 @@
+`default_nettype none
+
 module tmds_encoder (
     input  logic       clk_i,
     input  logic       rst_i,

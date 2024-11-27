@@ -1,5 +1,7 @@
 `include "dvi_pkg.svh"
 
+`default_nettype none
+
 module dvi_sync
     // import dvi_pkg::*;
 (
