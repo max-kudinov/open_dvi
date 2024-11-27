@@ -6,9 +6,6 @@
     parameter SCREEN_H_RES  = 640;
     parameter SCREEN_V_RES  = 480;
 
-    parameter BOARD_CLK_MHZ = 250;
-    parameter PIXEL_CLK_MHZ = 25;
-
     parameter HSYNC_PULSE   = 96;
     parameter H_FRONT_PORCH = 16;
     parameter H_BACK_PORCH  = 48;

@@ -32,17 +32,56 @@ module dvi_top
     logic [COLOR_W-1:0] green;
     logic [COLOR_W-1:0] blue;
 
+    // verilator lint_off ASCRANGE
+    logic [0:134] qr_mem [135];
+    logic [0:134] row;
+    // verilator lint_on ASCRANGE
+
+    logic [X_POS_W-1:0] x_scaled;
+    logic [Y_POS_W-1:0] y_scaled;
+
+    localparam X_OFFSET = 90;
+    localparam Y_OFFSET = 55;
+
+    initial begin
+        $readmemb("qr.mem", qr_mem);
+    end
+
+    always_ff @(posedge pixel_clk_i) begin
+        if ((y_scaled > Y_OFFSET) && (y_scaled < 135 + Y_OFFSET)) begin
+            row <= qr_mem[8'(y_scaled - 10'(Y_OFFSET))];
+        end
+    end
+
     always_comb begin
         red   = '0;
         green = '0;
         blue  = '0;
 
-        if (pixel_x > 50 && pixel_x < 400) begin
+        if (pixel_x == 320) begin
             red   = '1;
         end
 
-        if (pixel_y > 200 && pixel_y < 300) begin
+        if (pixel_y == 240) begin
+            blue   = '1;
+        end
+
+        x_scaled = pixel_x >> 1;
+        y_scaled = pixel_y >> 1;
+
+
+        if ((x_scaled > X_OFFSET) && (x_scaled < 135 + X_OFFSET) &&
+            (y_scaled > Y_OFFSET) && (y_scaled < 135 + Y_OFFSET)) begin
+
+            red   = '1;
             green = '1;
+            blue  = '1;
+
+            if (row[8'(x_scaled - 10'(X_OFFSET))]) begin
+                red   = '0;
+                green = '0;
+                blue  = '0;
+            end
         end
     end
 
