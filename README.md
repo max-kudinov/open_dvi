@@ -16,8 +16,9 @@ and `synth_n_load.sh` script to try this design.
 
 ## How to run on open source toolchain
 
-You'll need Yosys and one of the supported FPGA Place and Route tools. For
-Tang Primer 20K it is [Project Apicula](https://github.com/YosysHQ/apicula).
+You'll need Yosys and one of the supported FPGA Place and Route and bitstream tools.
+For Tang Primer 20K it is [nextpnr](https://github.com/YosysHQ/nextpnr) and
+[Project Apicula](https://github.com/YosysHQ/apicula).
 
 The easiest option to start with is to download everything in binary from
 [OSS CAD SUITE](https://github.com/YosysHQ/oss-cad-suite-build).
