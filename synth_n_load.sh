@@ -3,9 +3,13 @@
 device="GW2A-LV18PG256C8/I7"
 board="tangprimer20k"
 
+if [ ! -d sv2v ]
+then
+    mkdir sv2v
+fi
+
 # Convert SystemVerilog to Verilog
-if ! sv2v board_top.sv dvi_top.sv image_gen.sv serializer.sv ds_buf.sv dvi_sync.sv \
-        tmds_encoder.sv --write=sv2v/converted.v
+if ! sv2v -I rtl/include/ -y rtl/ rtl/board_top.sv --write=sv2v/converted.v
 then
     echo "Sv2v failed"
     exit 1
