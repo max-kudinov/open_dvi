@@ -1,7 +1,7 @@
 `ifndef DVI_PKG_SVH
 `define DVI_PKG_SVH
 
-// package dvi_pkg;
+package dvi_pkg;
 
     parameter SCREEN_H_RES  = 640;
     parameter SCREEN_V_RES  = 480;
@@ -26,12 +26,11 @@
     parameter VSYNC_END     = VSYNC_START + VSYNC_PULSE;
     parameter V_TOTAL       = VSYNC_END + V_BACK_PORCH + V_BORDER;
 
-    // H_TOTAL and V_TOTAL give an error in $clog2() with Yosys
-    parameter X_POS_W       = $clog2(HSYNC_END + H_BACK_PORCH + H_BORDER);
-    parameter Y_POS_W       = $clog2(VSYNC_END + V_BACK_PORCH + V_BORDER);
+    parameter X_POS_W       = $clog2(H_TOTAL);
+    parameter Y_POS_W       = $clog2(V_TOTAL);
 
     parameter COLOR_W       = 8;
 
-// endpackage : dvi_pkg
+endpackage : dvi_pkg
 
 `endif

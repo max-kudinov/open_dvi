@@ -2,8 +2,14 @@
 
 `default_nettype none
 
-module board_top (
+module board_top
+    import dvi_pkg::X_POS_W;
+    import dvi_pkg::Y_POS_W;
+    import dvi_pkg::COLOR_W;
+(
+    // verilator lint_off UNUSEDSIGNAL
     input  logic       clk_i,
+    // verilator lint_on UNUSEDSIGNAL
     input  logic       rst_n_i,
     output logic       tmds_clk_n,
     output logic       tmds_clk_p,
@@ -12,10 +18,14 @@ module board_top (
 );
 
     logic               rst;
+    // verilator lint_off UNUSEDSIGNAL
+    // verilator lint_off UNDRIVEN
     logic               serial_clk;
     logic               pixel_clk_div2;
     logic               pixel_clk;
     logic               pll_lock;
+    // verilator lint_on UNDRIVEN
+    // verilator lint_on UNUSEDSIGNAL
 
     logic [X_POS_W-1:0] pos_x;
     logic [Y_POS_W-1:0] pos_y;

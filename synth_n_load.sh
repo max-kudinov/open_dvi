@@ -3,9 +3,16 @@
 device="GW2A-LV18PG256C8/I7"
 board="tangprimer20k"
 
+# Convert SystemVerilog to Verilog
+if ! sv2v board_top.sv dvi_top.sv image_gen.sv serializer.sv ds_buf.sv dvi_sync.sv \
+        tmds_encoder.sv --write=sv2v/converted.v
+then
+    echo "Sv2v failed"
+    exit 1
+fi
+
 # Synthesis into Gowin primitives
-if ! yosys -p "read -sv board_top.sv dvi_sync.sv serializer.sv tmds_encoder.sv \
-               dvi_top.sv ds_buf.sv image_gen.sv; synth_gowin -json design.json"
+if ! yosys -p "read_verilog sv2v/converted.v; synth_gowin -json design.json"
 then
     echo "Yosys failed"
     exit 1

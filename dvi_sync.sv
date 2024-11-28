@@ -3,7 +3,7 @@
 `default_nettype none
 
 module dvi_sync
-    // import dvi_pkg::*;
+    import dvi_pkg::*;
 (
     input  logic               clk_i,
     input  logic               rst_i,

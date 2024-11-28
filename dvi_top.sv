@@ -3,9 +3,9 @@
 `default_nettype none
 
 module dvi_top
-    // import dvi_pkg::X_POS_W;
-    // import dvi_pkg::Y_POS_W;
-    // import dvi_pkg::COLOR_W;
+    import dvi_pkg::X_POS_W;
+    import dvi_pkg::Y_POS_W;
+    import dvi_pkg::COLOR_W;
 (
     input  logic               serial_clk_i,
     input  logic               pixel_clk_i,

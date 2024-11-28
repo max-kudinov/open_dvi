@@ -2,7 +2,11 @@
 
 `default_nettype none
 
-module image_gen (
+module image_gen
+    import dvi_pkg::X_POS_W;
+    import dvi_pkg::Y_POS_W;
+    import dvi_pkg::COLOR_W;
+(
     input  logic               clk_i,
     input  logic [X_POS_W-1:0] x_i,
     input  logic [Y_POS_W-1:0] y_i,
@@ -37,8 +41,8 @@ module image_gen (
     // verilator lint_on ASCRANGE
 
     initial begin
-        $readmemh("lena.mem", img_mem);
-        $readmemb("qr.mem", qr_mem);
+        $readmemh("images/lena.mem", img_mem);
+        $readmemb("images/qr.mem", qr_mem);
     end
 
     always_ff @(posedge clk_i) begin
