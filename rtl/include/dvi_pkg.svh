@@ -26,8 +26,11 @@ package dvi_pkg;
     parameter VSYNC_END     = VSYNC_START + VSYNC_PULSE;
     parameter V_TOTAL       = VSYNC_END + V_BACK_PORCH + V_BORDER;
 
-    parameter X_POS_W       = $clog2(H_TOTAL);
-    parameter Y_POS_W       = $clog2(V_TOTAL);
+    parameter X_POS_W       = $clog2(SCREEN_H_RES + 1);
+    parameter Y_POS_W       = $clog2(SCREEN_V_RES + 1);
+
+    parameter HS_W       = $clog2(H_TOTAL + 1);
+    parameter VS_W       = $clog2(V_TOTAL + 1);
 
     parameter COLOR_W       = 8;
 

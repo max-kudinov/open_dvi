@@ -88,9 +88,9 @@ module image_gen
             blue  = '1;
 
             if (qr_pixel) begin
-                red   = '0;
+                red   = y_i[$left(y_i) -: 8];
                 green = '0;
-                blue  = '0;
+                blue  = x_i[$left(x_i) -: 8];
             end
         end
 

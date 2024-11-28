@@ -14,13 +14,13 @@ module dvi_sync
     output logic               visible_range_o
 );
 
-    logic                h_cnt_max;
+    logic            h_cnt_max;
 
-    logic  [X_POS_W-1:0] h_cnt;
-    logic  [Y_POS_W-1:0] v_cnt;
+    logic [HS_W-1:0] h_cnt;
+    logic [VS_W-1:0] v_cnt;
 
 
-    assign h_cnt_max    = h_cnt == (H_TOTAL - 1);
+    assign h_cnt_max = h_cnt == (H_TOTAL - 1);
 
     // Pixel counter
     always_ff @(posedge clk_i)
@@ -56,8 +56,8 @@ module dvi_sync
             hsync_o         <= ~ (h_cnt >= HSYNC_START && h_cnt < HSYNC_END);
             vsync_o         <= ~ (v_cnt >= VSYNC_START && v_cnt < VSYNC_END);
 
-            pixel_x_o       <= h_cnt;
-            pixel_y_o       <= v_cnt;
+            pixel_x_o       <= (h_cnt > SCREEN_H_RES - 1) ? '0 : X_POS_W'(h_cnt);
+            pixel_y_o       <= (v_cnt > SCREEN_V_RES - 1) ? '0 : Y_POS_W'(v_cnt);
 
             visible_range_o <= ((h_cnt < SCREEN_H_RES) && (v_cnt < SCREEN_V_RES));
         end
