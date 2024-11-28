@@ -8,7 +8,7 @@ protocol and stuff around it.
 The idea was to make it vendor agnostic, portable and capable of running on open
 source toolchain ([Yosys](https://github.com/YosysHQ/yosys)).
 The only vendor specific black-boxes are PLL and `CLKDIV` for proper clocking.
-They are in `board_top.sv` file and could be easialy avoided by adapting
+They are in `board_top.sv` file and could be easily avoided by adapting
 `dvi_top.sv` module for your needs instead.
 
 But if you happen to have Tang Primer 20K, then you can use `pins.cst` file
