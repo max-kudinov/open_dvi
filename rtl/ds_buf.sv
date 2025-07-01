@@ -6,9 +6,17 @@ module ds_buf (
     output logic out_n
 );
 
-    always_comb begin
-        out   =   in;
-        out_n = ~ in;
-    end
+    `ifdef GOWIN
+        TLVDS_OBUF tmds_buf (
+            .I  (in   ),
+            .O  (out  ),
+            .OB (out_n)
+        );
+    `else
+        always_comb begin
+            out   =   in;
+            out_n = ~ in;
+        end
+    `endif
 
 endmodule

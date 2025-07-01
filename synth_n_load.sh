@@ -9,7 +9,7 @@ then
 fi
 
 # Convert SystemVerilog to Verilog
-if ! sv2v -I rtl/include/ -y rtl/ rtl/board_top.sv --write=sv2v/converted.v
+if ! sv2v -I rtl/include/ -y rtl/ rtl/board_top.sv --write=sv2v/converted.v -D=GOWIN
 then
     echo "Sv2v failed"
     exit 1
