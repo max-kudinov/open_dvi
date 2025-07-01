@@ -137,31 +137,27 @@ module dvi_top
     // ------------------------------------------------------------------------
 
     ds_buf blue_ds_buf (
-        .clk_i ( serial_clk_i    ),
         .in    ( blue_serial     ),
         .out   ( tmds_data_p [0] ),
         .out_n ( tmds_data_n [0] )
     );
 
     ds_buf green_ds_buf (
-        .clk_i ( serial_clk_i    ),
         .in    ( green_serial    ),
         .out   ( tmds_data_p [1] ),
         .out_n ( tmds_data_n [1] )
     );
 
     ds_buf red_ds_buf (
-        .clk_i ( serial_clk_i    ),
         .in    ( red_serial      ),
         .out   ( tmds_data_p [2] ),
         .out_n ( tmds_data_n [2] )
     );
 
     ds_buf clk_ds_buf (
-        .clk_i ( serial_clk_i ),
-        .in    ( pixel_clk_i  ),
-        .out   ( tmds_clk_p   ),
-        .out_n ( tmds_clk_n   )
+        .in    ( pixel_clk_i ),
+        .out   ( tmds_clk_p  ),
+        .out_n ( tmds_clk_n  )
     );
 
 endmodule
