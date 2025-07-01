@@ -24,7 +24,7 @@ fi
 
 # PnR
 if ! nextpnr-himbaechel --json design.json --write design_pnr.json  \
-    --device $device --vopt family=GW2A-18 --vopt cst=pins.cst
+    --device $device --vopt family=GW2A-18 --vopt cst=pins.cst --sdc constraints.sdc
 then
     echo "Nextpnr failed"
     exit 1
