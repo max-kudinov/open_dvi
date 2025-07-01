@@ -15,34 +15,33 @@ module dvi_sync
 );
 
     logic            h_cnt_max;
-
+    logic [HS_W-1:0] h_cnt_next;
     logic [HS_W-1:0] h_cnt;
+    logic [VS_W-1:0] v_cnt_next;
     logic [VS_W-1:0] v_cnt;
 
+    always_comb begin
+        h_cnt_max  = h_cnt == (H_TOTAL - 1);
+        h_cnt_next = h_cnt_max ? '0 : h_cnt + 1'b1;
+        v_cnt_next = v_cnt;
 
-    assign h_cnt_max = h_cnt == (H_TOTAL - 1);
-
-    // Pixel counter
-    always_ff @(posedge clk_i)
-        if (rst_i)
-            h_cnt     <= '0;
-        else begin
-            h_cnt     <= h_cnt + 1'b1;
-
-            if (h_cnt_max)
-                h_cnt <= '0;
-        end
-
-    // Line counter
-    always_ff @(posedge clk_i)
-        if (rst_i)
-            v_cnt     <= '0;
-        else if (h_cnt_max) begin
-            v_cnt     <= v_cnt + 1'b1;
+        if (h_cnt_max) begin
+            v_cnt_next = v_cnt + 1'b1;
 
             if (v_cnt == (V_TOTAL - 1))
-                v_cnt <= '0;
+                v_cnt_next = '0;
         end
+    end
+
+    always_ff @(posedge clk_i) begin
+        if (rst_i) begin
+            h_cnt <= '0;
+            v_cnt <= '0;
+        end else begin
+            h_cnt <= h_cnt_next;
+            v_cnt <= v_cnt_next;
+        end
+    end
 
     // Register outputs
     always_ff @(posedge clk_i)
@@ -53,13 +52,13 @@ module dvi_sync
             pixel_y_o       <= '0;
             visible_range_o <= '0;
         end else begin
-            hsync_o         <= ~ (h_cnt >= HSYNC_START && h_cnt < HSYNC_END);
-            vsync_o         <= ~ (v_cnt >= VSYNC_START && v_cnt < VSYNC_END);
+            hsync_o         <= !(h_cnt_next >= HSYNC_START && h_cnt_next < HSYNC_END);
+            vsync_o         <= !(v_cnt_next >= VSYNC_START && v_cnt_next < VSYNC_END);
 
-            pixel_x_o       <= (h_cnt > SCREEN_H_RES - 1) ? '0 : X_POS_W'(h_cnt);
-            pixel_y_o       <= (v_cnt > SCREEN_V_RES - 1) ? '0 : Y_POS_W'(v_cnt);
+            pixel_x_o       <=  (h_cnt_next > SCREEN_H_RES - 1) ? '0 : X_POS_W'(h_cnt_next);
+            pixel_y_o       <=  (v_cnt_next > SCREEN_V_RES - 1) ? '0 : Y_POS_W'(v_cnt_next);
 
-            visible_range_o <= ((h_cnt < SCREEN_H_RES) && (v_cnt < SCREEN_V_RES));
+            visible_range_o <=  ((h_cnt_next < SCREEN_H_RES) && (v_cnt_next < SCREEN_V_RES));
         end
 
 endmodule
