@@ -1,0 +1,4 @@
+{
+    "flags": "-Irtl/include -Wno-case-default",
+    "indexGlobs": ["rtl/.../*.sv*"]
+}

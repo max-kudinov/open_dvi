@@ -3,4 +3,5 @@ sv2v
 a.out
 *.fs
 *.json
+!.slang/server.json
 *.vcd
