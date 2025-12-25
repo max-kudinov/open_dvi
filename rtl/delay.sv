@@ -5,16 +5,16 @@ module delay #(
     parameter N_CYCLES = 8
 ) (
     input  var logic             clk_i,
+    // Used in one of generate branches
+    // verilator lint_off UNUSEDSIGNAL
     input  var logic             rst_i,
+    // verilator lint_on UNUSEDSIGNAL
     input  var logic [WIDTH-1:0] data_i,
     output var logic [WIDTH-1:0] data_o
 );
 
     localparam W_PTR   = $clog2(N_CYCLES);
     localparam MAX_PTR = N_CYCLES - 1;
-
-    logic [WIDTH-1:0] mem [N_CYCLES];
-    logic [W_PTR-1:0] ptr;
 
     if (N_CYCLES == '0) begin : bypass_gen
 
@@ -26,6 +26,9 @@ module delay #(
             data_o <= data_i;
 
     end else begin : ring_buf_gen
+
+        logic [WIDTH-1:0] mem [N_CYCLES];
+        logic [W_PTR-1:0] ptr;
 
         always_ff @(posedge clk_i)
             if (rst_i)
