@@ -8,13 +8,13 @@ module board_top
     import dvi_pkg::COLOR_W;
 (
     // verilator lint_off UNUSEDSIGNAL
-    input  logic       clk_i,
+    input  var logic       clk_i,
     // verilator lint_on UNUSEDSIGNAL
-    input  logic       rst_n_i,
-    output logic       tmds_clk_n,
-    output logic       tmds_clk_p,
-    output logic [2:0] tmds_data_n,
-    output logic [2:0] tmds_data_p
+    input  var logic       rst_n_i,
+    output var logic       tmds_clk_n,
+    output var logic       tmds_clk_p,
+    output var logic [2:0] tmds_data_n,
+    output var logic [2:0] tmds_data_p
 );
 
     logic               rst;

@@ -5,13 +5,13 @@
 module dvi_sync
     import dvi_pkg::*;
 (
-    input  logic               clk_i,
-    input  logic               rst_i,
-    output logic               hsync_o,
-    output logic               vsync_o,
-    output logic [X_POS_W-1:0] pixel_x_o,
-    output logic [Y_POS_W-1:0] pixel_y_o,
-    output logic               visible_range_o
+    input  var logic               clk_i,
+    input  var logic               rst_i,
+    output var logic               hsync_o,
+    output var logic               vsync_o,
+    output var logic [X_POS_W-1:0] pixel_x_o,
+    output var logic [Y_POS_W-1:0] pixel_y_o,
+    output var logic               visible_range_o
 );
 
     logic            h_cnt_max;

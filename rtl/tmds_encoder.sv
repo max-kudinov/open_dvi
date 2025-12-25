@@ -1,13 +1,13 @@
 `default_nettype none
 
 module tmds_encoder (
-    input  logic       clk_i,
-    input  logic       rst_i,
-    input  logic       C0,
-    input  logic       C1,
-    input  logic       DE,
-    input  logic [7:0] D,
-    output logic [9:0] q_out
+    input  var logic       clk_i,
+    input  var logic       rst_i,
+    input  var logic       C0,
+    input  var logic       C1,
+    input  var logic       DE,
+    input  var logic [7:0] D,
+    output var logic [9:0] q_out
 );
 
     localparam W_CNT = 8;

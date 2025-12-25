@@ -7,21 +7,21 @@ module dvi_top
     import dvi_pkg::Y_POS_W;
     import dvi_pkg::COLOR_W;
 (
-    input  logic               serial_clk_i,
-    input  logic               pixel_clk_i,
-    input  logic               rst_i,
+    input  var logic               serial_clk_i,
+    input  var logic               pixel_clk_i,
+    input  var logic               rst_i,
 
-    input  logic [COLOR_W-1:0] red_i,
-    input  logic [COLOR_W-1:0] green_i,
-    input  logic [COLOR_W-1:0] blue_i,
+    input  var logic [COLOR_W-1:0] red_i,
+    input  var logic [COLOR_W-1:0] green_i,
+    input  var logic [COLOR_W-1:0] blue_i,
 
-    output logic [X_POS_W-1:0] x_o,
-    output logic [Y_POS_W-1:0] y_o,
+    output var logic [X_POS_W-1:0] x_o,
+    output var logic [Y_POS_W-1:0] y_o,
 
-    output logic [        2:0] tmds_data_p,
-    output logic [        2:0] tmds_data_n,
-    output logic               tmds_clk_p,
-    output logic               tmds_clk_n
+    output var logic [        2:0] tmds_data_p,
+    output var logic [        2:0] tmds_data_n,
+    output var logic               tmds_clk_p,
+    output var logic               tmds_clk_n
 );
 
     logic               hsync;

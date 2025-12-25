@@ -7,12 +7,12 @@ module image_gen
     import dvi_pkg::Y_POS_W;
     import dvi_pkg::COLOR_W;
 (
-    input  logic               clk_i,
-    input  logic [X_POS_W-1:0] x_i,
-    input  logic [Y_POS_W-1:0] y_i,
-    output logic [COLOR_W-1:0] red_o,
-    output logic [COLOR_W-1:0] green_o,
-    output logic [COLOR_W-1:0] blue_o
+    input  var logic               clk_i,
+    input  var logic [X_POS_W-1:0] x_i,
+    input  var logic [Y_POS_W-1:0] y_i,
+    output var logic [COLOR_W-1:0] red_o,
+    output var logic [COLOR_W-1:0] green_o,
+    output var logic [COLOR_W-1:0] blue_o
 );
 
     localparam IMG_RES   = 256;

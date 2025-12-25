@@ -1,9 +1,9 @@
 `default_nettype none
 
 module ds_buf (
-    input  logic in,
-    output logic out,
-    output logic out_n
+    input  var logic in,
+    output var logic out,
+    output var logic out_n
 );
 
     `ifdef GOWIN

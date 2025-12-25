@@ -3,10 +3,10 @@
 module serializer #(
     parameter DATA_W = 10
 ) (
-    input  logic              clk_i,
-    input  logic              rst_i,
-    input  logic [DATA_W-1:0] data_i,
-    output logic              data_o
+    input  var logic              clk_i,
+    input  var logic              rst_i,
+    input  var logic [DATA_W-1:0] data_i,
+    output var logic              data_o
 );
 
     localparam CNT_MAX = DATA_W - 1;
