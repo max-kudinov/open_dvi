@@ -111,3 +111,5 @@ module image_gen
     end
 
 endmodule
+
+`resetall

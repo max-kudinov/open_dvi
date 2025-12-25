@@ -161,3 +161,5 @@ module dvi_top
     );
 
 endmodule
+
+`resetall

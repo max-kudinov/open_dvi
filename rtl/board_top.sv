@@ -105,3 +105,5 @@ module board_top
     );
 
 endmodule
+
+`resetall

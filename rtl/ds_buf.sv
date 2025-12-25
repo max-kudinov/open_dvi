@@ -20,3 +20,5 @@ module ds_buf (
     `endif
 
 endmodule
+
+`resetall

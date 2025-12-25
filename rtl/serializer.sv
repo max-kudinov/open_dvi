@@ -40,3 +40,5 @@ module serializer #(
     assign data_o = shift_reg[0];
 
 endmodule
+
+`resetall

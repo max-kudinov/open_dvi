@@ -106,3 +106,5 @@ module tmds_encoder (
     end
 
 endmodule
+
+`resetall

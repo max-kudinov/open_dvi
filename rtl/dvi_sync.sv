@@ -62,3 +62,5 @@ module dvi_sync
         end
 
 endmodule
+
+`resetall
