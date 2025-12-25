@@ -17,6 +17,7 @@ module dvi_top
 
     output var logic [X_POS_W-1:0] x_o,
     output var logic [Y_POS_W-1:0] y_o,
+    output var logic               in_range_o,
 
     output var logic [        2:0] tmds_data_p,
     output var logic [        2:0] tmds_data_n,
@@ -28,7 +29,6 @@ module dvi_top
 
     logic       hsync;
     logic       vsync;
-    logic       visible_range;
     logic       hsync_del;
     logic       vsync_del;
     logic       visible_range_del;
@@ -54,14 +54,14 @@ module dvi_top
         .vsync_o         ( vsync         ),
         .pixel_x_o       ( x_o           ),
         .pixel_y_o       ( y_o           ),
-        .visible_range_o ( visible_range )
+        .visible_range_o ( in_range_o    )
     );
 
     // ------------------------------------------------------------------------
     // Encode
     // ------------------------------------------------------------------------
 
-    assign sync_del_in = { vsync, hsync, visible_range };
+    assign sync_del_in = { vsync, hsync, in_range_o };
     assign { vsync_del, hsync_del, visible_range_del} = sync_del_out;
 
     delay #(
