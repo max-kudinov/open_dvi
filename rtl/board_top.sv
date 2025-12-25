@@ -24,6 +24,7 @@ module board_top
     logic               pixel_clk_div2;
     logic               pixel_clk;
     logic               pll_lock;
+    logic               in_range_nc;
     // verilator lint_on UNDRIVEN
     // verilator lint_on UNUSEDSIGNAL
 
@@ -36,12 +37,10 @@ module board_top
 
     assign rst = ~rst_n_i;
 
-    // Hide vendor black boxes from Verilator lint
-
-    `ifndef VERILATOR
+    // Hide vendor black boxes from linters
+    `ifdef GOWIN
 
         // Create 252 MHz clock for serializer
-
         rPLL #(
             .FCLKIN    ( "27" ),
             .IDIV_SEL  ( 2    ),
@@ -78,7 +77,7 @@ module board_top
             .RESETN ( pll_lock       )
         );
 
-    `endif // VERILATOR
+    `endif // GOWIN
 
     dvi_top i_dvi_top (
         .serial_clk_i ( serial_clk  ),
@@ -89,6 +88,7 @@ module board_top
         .blue_i       ( blue        ),
         .x_o          ( pos_x       ),
         .y_o          ( pos_y       ),
+        .in_range_o   ( in_range_nc ),
         .tmds_clk_p   ( tmds_clk_p  ),
         .tmds_clk_n   ( tmds_clk_n  ),
         .tmds_data_p  ( tmds_data_p ),
