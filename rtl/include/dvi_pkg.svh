@@ -29,10 +29,11 @@ package dvi_pkg;
     parameter X_POS_W       = $clog2(SCREEN_H_RES + 1);
     parameter Y_POS_W       = $clog2(SCREEN_V_RES + 1);
 
-    parameter HS_W       = $clog2(H_TOTAL + 1);
-    parameter VS_W       = $clog2(V_TOTAL + 1);
+    parameter HS_W          = $clog2(H_TOTAL + 1);
+    parameter VS_W          = $clog2(V_TOTAL + 1);
 
     parameter COLOR_W       = 8;
+    parameter DEL_CYCLES    = 1;
 
 endpackage : dvi_pkg
 
