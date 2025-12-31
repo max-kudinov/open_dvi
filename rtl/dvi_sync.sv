@@ -50,7 +50,7 @@ module dvi_sync
             vsync_o         <= '0;
             pixel_x_o       <= '0;
             pixel_y_o       <= '0;
-            visible_range_o <= '0;
+            visible_range_o <= '1;
         end else begin
             hsync_o         <= !(h_cnt_next >= HSYNC_START && h_cnt_next < HSYNC_END);
             vsync_o         <= !(v_cnt_next >= VSYNC_START && v_cnt_next < VSYNC_END);
