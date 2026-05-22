@@ -1,5 +1,5 @@
-IO_LOC "clk_i" IOT27A;
-IO_LOC "rst_n_i" T10;
+IO_LOC "clk" IOT27A;
+IO_LOC "rst_n" T10;
 
 IO_LOC "tmds_clk_p" G16;
 IO_PORT "tmds_clk_p" PULL_MODE=NONE DRIVE=3.5;
