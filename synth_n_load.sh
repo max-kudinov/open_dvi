@@ -3,20 +3,17 @@
 device="GW2A-LV18PG256C8/I7"
 board="tangprimer20k"
 
-if [ ! -d sv2v ]
-then
-    mkdir sv2v
-fi
-
-# Convert SystemVerilog to Verilog
-if ! sv2v -I rtl/include/ -y rtl/ rtl/board_top.sv --write=sv2v/converted.v -D=GOWIN
-then
-    echo "Sv2v failed"
-    exit 1
-fi
+source ~/oss-cad-suite/environment
 
 # Synthesis into Gowin primitives
-if ! yosys -p "read_verilog sv2v/converted.v; synth_gowin -json design.json"
+if ! yosys -m slang -p "read_slang                 \
+                        --single-unit              \
+                        --libraries-inherit-macros \
+                        -DGOWIN                    \
+                        -Irtl/include              \
+                        rtl/*                      \
+                        rtl/blackboxes/*;          \
+                        synth_gowin -json design.json"
 then
     echo "Yosys failed"
     exit 1
