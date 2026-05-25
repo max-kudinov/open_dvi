@@ -29,6 +29,5 @@ For Tang Primer 20K it is [nextpnr](https://github.com/YosysHQ/nextpnr) and
 The easiest option to start with is to download everything in binary from
 [OSS CAD SUITE](https://github.com/YosysHQ/oss-cad-suite-build).
 
-You'll also need a tool to translate SystemVerilog packages to something that
-Yosys understands, for example to Verilog 2005. You can use
-[SV2V](https://github.com/zachjs/sv2v) for that.
+Default Yosys frontend can't handle some SystemVerilog constructs that were used,
+so [yosys-slang](https://github.com/povik/yosys-slang) plugin is necessary.
